@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
-function Guess() {
+function Guess({ wordList, setWordList }) {
   const [guess, setGuess] = React.useState("");
 
   return (
@@ -9,6 +9,7 @@ function Guess() {
       onSubmit={(event) => {
         event.preventDefault();
         console.log({ guess });
+        setWordList([...wordList, guess]);
         setGuess("");
       }}
       className="guess-input-wrapper"
