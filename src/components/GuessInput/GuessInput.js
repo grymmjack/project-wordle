@@ -7,7 +7,7 @@ function GuessInput({ guessList, setGuessList }) {
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        console.log({ guessInput });
+        console.log({ guess: guessInput });
         setGuessList([...guessList, guessInput]);
         setGuessInput("");
       }}
