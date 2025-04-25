@@ -10,38 +10,42 @@ import GameBanner from "../GameBanner";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
+
 // To make debugging easier, we'll log the solution in the console.
 console.info({ answer });
 
 function Game() {
   // Hoisted to prop-drill up to Game level to reach other components
   const [guessList, setGuessList] = React.useState([]);
-  const [gameStatus, setGameStatus] = React.useState("");
+  const [gameStatus, setGameStatus] = React.useState("running");
 
-  let gameOver = guessList.length === NUM_OF_GUESSES_ALLOWED;
-  // if (guessList.includes(answer)) {
-  //   setGameStatus("win");
-  // }
-  // if (gameOver && gameStatus !== "win") {
-  //   setGameStatus("lose");
-  // }
+  let gameOver = false;
+  // Game over because max number of guesses reached or answered correctly
+  if (guessList.length === NUM_OF_GUESSES_ALLOWED || gameStatus === "win") {
+    gameOver = true;
+  }
+
+  // Use useEffect to handle side effects like updating gameStatus
+  React.useEffect(() => {
+    // Answered correctly, won game
+    if (guessList.includes(answer)) {
+      setGameStatus("win");
+    } else if (gameOver) {
+      setGameStatus("lose");
+    }
+  }, [guessList, gameOver]);
 
   return (
     <>
-      {guessList.includes(answer) && setGameStatus("win")}
       <GuessResults guessList={guessList} answer={answer} />
-      <GuessInput guessList={guessList} setGuessList={setGuessList} />
-      {gameOver ? (
-        gameStatus === "win" && (
-          <GameBanner
-            result="happy"
-            numGuesses={guessList.length}
-            answer={answer}
-          />
-        )
-      ) : (
+      <GuessInput
+        guessList={guessList}
+        setGuessList={setGuessList}
+        gameStatus={gameStatus}
+      />
+      {gameOver && (
         <GameBanner
-          result="sad"
+          result={gameStatus === "win" ? "happy" : "sad"}
           numGuesses={guessList.length}
           answer={answer}
         />

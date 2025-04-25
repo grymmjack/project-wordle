@@ -1,6 +1,7 @@
 import React from "react";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
-function GuessInput({ guessList, setGuessList }) {
+function GuessInput({ guessList, setGuessList, gameStatus }) {
   const [guessInput, setGuessInput] = React.useState("");
 
   return (
@@ -19,6 +20,7 @@ function GuessInput({ guessList, setGuessList }) {
         onChange={(event) => {
           setGuessInput(event.target.value.toUpperCase());
         }}
+        disabled={gameStatus !== "running"}
         minLength={5}
         maxLength={5}
         pattern="[a-zA-Z]{5}"

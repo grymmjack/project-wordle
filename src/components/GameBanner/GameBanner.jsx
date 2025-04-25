@@ -1,22 +1,22 @@
 import React from "react";
 
 function GameBanner({ result, numGuesses, answer }) {
+  let message = "";
+  let tries = "";
   if (result === "happy") {
-    return (
-      <div class="happy banner">
-        <p>
-          <strong>Congratulations!</strong> Got it in
-          <strong>{numGuesses} guesses</strong>.
-        </p>
-      </div>
-    );
+    message = "Congratulations!";
+    tries = `Got it in ${numGuesses} guess${numGuesses > 1 ? "es" : ""}!`;
   } else {
-    <div class="sad banner">
-      <p>
-        Sorry, the correct answer is <strong>{answer}</strong>.
-      </p>
-    </div>;
+    message = `Sorry, the correct answer is ${answer}`;
+    tries = "";
   }
+  return (
+    <div className={`${result} banner`}>
+      <p>
+        <strong>{message}</strong> <strong>{tries}</strong>
+      </p>
+    </div>
+  );
 }
 
 export default GameBanner;
