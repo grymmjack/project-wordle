@@ -1,9 +1,10 @@
 import React from "react";
-import Guess from "../Guess";
-import GuessResults from "../GuessResults";
-
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
+
+// Game Components
+import GuessInput from "../GuessInput";
+import GuessResults from "../GuessResults";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -11,12 +12,13 @@ const answer = sample(WORDS);
 console.info({ answer });
 
 function Game() {
-  const [wordList, setWordList] = React.useState([]);
+  // Hoisted to prop-drill up to Game level to reach other components
+  const [guessList, setGuessList] = React.useState([]);
 
   return (
     <>
-      <GuessResults wordList={wordList} />
-      <Guess wordList={wordList} setWordList={setWordList} />
+      <GuessResults guessList={guessList} />
+      <GuessInput guessList={guessList} setGuessList={setGuessList} />
     </>
   );
 }
